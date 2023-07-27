@@ -1,0 +1,94 @@
+import random
+print('''
+          _____
+         |A .  | _____                                       _     _            _    _            _    
+         | /.\ ||A ^  | _____                                | |   | |          | |  (_)          | |                                         
+         |(_._)|| / \ ||A _  | _____                         | |__ | | __ _  ___| | ___  __ _  ___| | __
+         |  |  || \ / || ( ) ||A_ _ |                        | '_ \| |/ _` |/ __| |/ / |/ _` |/ __| |/ /
+         |____V||  .  ||(_'_)||( v )|                        | |_) | | (_| | (__|   <| | (_| | (__|   < 
+                |____V||  |  || \ / |                        |_.__/|_|\__,_|\___|_|\_\ |\__,_|\___|_|\_\
+                       |____V||  .  |                                               _/ |   
+                              |____V|                                              |__/      
+''')
+users_cards = []
+computer_cards = []
+cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+
+def add(users_cards,computer_cards):
+    sum_of_computer = 0
+    sum_of_user = 0
+    for i in users_cards:
+        sum_of_user+=i
+    for i in computer_cards:
+        sum_of_computer+=i
+    return (sum_of_user,sum_of_computer)
+
+for i in range(0,2):
+    users_cards.append(random.choice(cards))
+    computer_cards.append(random.choice(cards))
+
+def calculate():
+    sum_of_user,sum_of_computer = add(users_cards,computer_cards)
+    print(f"Your card are {users_cards}")
+    print(f"Sum of ur cards = {sum_of_user}")
+    print()
+    print(f"Computer card are {computer_cards}")
+    print(f"Sum of Computer cards = {sum_of_computer}")
+    print()
+    if sum_of_user == 21:
+        print("You win!! , PERFECT ACE, BINGO .")
+        exit(0)
+    if sum_of_computer == 21:
+        print("You lose!! , Computer has scored BINGO.")
+        exit(0)
+
+    if sum_of_user > 21:
+        for i in users_cards:
+            if i != 11:
+                print("You lose!! , sum of computer is greater than urs.")
+                exit(0)
+            if i == 11:
+                users_cards[i] = 1
+        sum_of_user,sum_of_computer = add(users_cards,computer_cards)
+        if sum_of_user > 21:
+            print("You lose!! , sum of computer is greater than urs.")
+            exit(0)
+
+    check = input("Type 'y' to get another card or 'n' to pass.. : ").lower()
+    if check == "y":
+        users_cards.append(random.choice(cards))
+        calculate()
+    else:
+        if sum_of_computer <= 17:
+            for i in cards:
+                computer_cards.append(random.choice(cards))
+                sum_of_user, sum_of_computer = add(users_cards, computer_cards)
+                print(f"Computer card are {computer_cards}")
+                print(f"Sum of Computer cards = {sum_of_computer}")
+                print()
+                if sum_of_computer > 21:
+                    print("You win!! , computer's sum has gone over 21.")
+                    exit(0)
+                else:
+                    if sum_of_computer > sum_of_user:
+                        print("You lose!! , sum of computer is greater than urs.")
+                        exit(0)
+                    elif sum_of_user > sum_of_computer:
+                        print("You win!! , sum of computer is less than urs.")
+                        exit(0)
+                    elif sum_of_user == sum_of_computer:
+                        print("Draw!! , both have equal sum")
+                        exit(0)
+
+        else:
+            #compare
+            if sum_of_computer > sum_of_user:
+                print("You lose!! , sum of computer is greater than urs.")
+                exit(0)
+            elif sum_of_user > sum_of_computer:
+                print("You win!! , sum of computer is less than urs.")
+                exit(0)
+            elif sum_of_user == sum_of_computer:
+                print("Draw!!")
+                exit(0)
+calculate()
